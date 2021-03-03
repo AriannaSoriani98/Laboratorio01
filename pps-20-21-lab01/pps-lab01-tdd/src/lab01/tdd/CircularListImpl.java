@@ -6,11 +6,13 @@ import java.util.Optional;
 public class CircularListImpl implements CircularList {
 
 
-    private ArrayList<Integer> circularList = new ArrayList<Integer>();
+    private ArrayList<Integer> circularList;
     private Integer next_element;
     private Integer previous_element;
     private Integer current_element;
-    private int currentElementIndex = 0;
+    private int currentElementIndexForNext = 0;
+    private int currentElementIndexForPrevious = 0;
+    private int elementIndexToRemove = 0;
 
     public CircularListImpl(ArrayList<Integer> circularList) {
         this.circularList = circularList;
@@ -36,13 +38,13 @@ public class CircularListImpl implements CircularList {
 
         // If we're at the end, go back to the beginning
         // or if the list has only one element
-        if(currentElementIndex >= circularList.size() || circularList.size() == 1){
-            currentElementIndex = 0;
+        if(currentElementIndexForNext == circularList.size() -1 || circularList.size() == 1){
+            currentElementIndexForNext = 0;
         } else{
-            currentElementIndex ++;
+            currentElementIndexForNext++;
         }
-
-        return next_element = circularList.get(currentElementIndex);
+        System.out.println(currentElementIndexForNext);
+        return next_element = circularList.get(currentElementIndexForNext);
     }
 
     @Override
@@ -50,24 +52,43 @@ public class CircularListImpl implements CircularList {
 
         // If we're at the beginning, go to the end
         // or if the list has only one element
-        if(currentElementIndex == circularList.lastIndexOf(circularList)){
-            currentElementIndex = 0;
+        if(currentElementIndexForPrevious == 0){
+            currentElementIndexForPrevious = 1;
+            return previous_element = circularList.get(circularList.size()-1);
+        } else if( currentElementIndexForPrevious== circularList.size()-1) {
+            previous_element = circularList.get(currentElementIndexForPrevious-1);
+            currentElementIndexForPrevious = 0;
         } else{
-            currentElementIndex --;
-        }
+            previous_element = circularList.get(currentElementIndexForPrevious-1);
+            currentElementIndexForPrevious++;
 
-        return previous_element = circularList.get(currentElementIndex);
+        }
+        return previous_element;
     }
 
     @Override
-    public void reset() {
-        current_element = circularList.get(currentElementIndex);
-        circularList.remove(currentElementIndex);
+    public Integer reset() {
+        elementIndexToRemove = (int) (Math.random() * circularList.size()-2) +1;
+        current_element = circularList.get(elementIndexToRemove);
+        circularList.remove(elementIndexToRemove);
         circularList.set(0,current_element);
+        System.out.println(elementIndexToRemove);
+        return  elementIndexToRemove;
     }
 
     @Override
     public Optional<Integer> next(SelectStrategy strategy) {
         return Optional.empty();
     }
+
+    public Integer getElementFromIndex(int index) {
+        return circularList.get(index);
+    }
+
+    public void InitializeCircularList(int size) {
+        for(int i = 0; i<= size; i++){
+            circularList.add(i);
+        }
+    }
+
 }

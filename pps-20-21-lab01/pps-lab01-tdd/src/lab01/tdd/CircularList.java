@@ -43,7 +43,7 @@ public interface CircularList {
     /**
      * Reset the current element to the first one of the list. The first one is the first added to the list.
      */
-    void reset();
+    Integer reset();
 
     /**
      * Provides the next element of the list according to the injected strategy.
