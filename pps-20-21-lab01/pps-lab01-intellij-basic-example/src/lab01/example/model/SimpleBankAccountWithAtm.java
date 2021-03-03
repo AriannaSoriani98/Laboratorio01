@@ -2,6 +2,7 @@ package lab01.example.model;
 
 public class SimpleBankAccountWithAtm extends SimpleBankAccount implements BankAccount {
 
+    public static final int ATM_FEE = 1;
     private double balance;
     private final AccountHolder holder;
 
@@ -36,11 +37,9 @@ public class SimpleBankAccountWithAtm extends SimpleBankAccount implements BankA
         }
     }
 
-
-    private boolean isWithdrawAllowed(final double amount){
+    protected boolean isWithdrawAllowed(final double amount){
         return this.balance >= amount;
     }
-
 
     protected boolean checkUser(final int id) {
         return this.holder.getId() == id;
@@ -49,14 +48,14 @@ public class SimpleBankAccountWithAtm extends SimpleBankAccount implements BankA
     public void depositWithAtm(final int usrID, final double amount) {
         if (checkUser(usrID)) {
             this.balance += amount;
-            this.balance -= 1;
+            this.balance -= ATM_FEE;
         }
     }
 
     public void withdrawWithAtm(final int usrID, final double amount) {
         if (checkUser(usrID) && isWithdrawAllowed(amount)) {
             this.balance -= amount;
-            this.balance -=1;
+            this.balance -= ATM_FEE;
         }
     }
 }

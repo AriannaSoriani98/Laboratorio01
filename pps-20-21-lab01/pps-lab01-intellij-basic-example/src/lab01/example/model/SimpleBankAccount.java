@@ -41,7 +41,7 @@ public class SimpleBankAccount implements BankAccount {
         }
     }
 
-    private boolean isWithdrawAllowed(final double amount){
+    protected boolean isWithdrawAllowed(final double amount){
         return this.balance >= amount;
     }
 
