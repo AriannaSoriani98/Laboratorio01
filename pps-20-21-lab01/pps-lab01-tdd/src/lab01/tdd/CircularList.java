@@ -50,5 +50,8 @@ public interface CircularList {
      * @param strategy the strategy to be used (e.g., the next even element, the next odd element, etc.)
      * @return the next element of the list according to the strategy.
      */
-    Optional<Integer> next(final SelectStrategy strategy);
+ //   Integer nextByStrategy(final SelectStrategy strategy);
+
+  //  Optional<Integer> nextByStrategy(CircularListImpl.SelectStrategy strategy);
+  //  Integer nextPari();
 }

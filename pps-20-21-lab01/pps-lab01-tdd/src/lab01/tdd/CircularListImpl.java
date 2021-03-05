@@ -1,11 +1,11 @@
 package lab01.tdd;
 
 import java.util.ArrayList;
-import java.util.Optional;
-
-public class CircularListImpl implements CircularList {
+import java.util.List;
 
 
+public class CircularListImpl implements CircularList{
+    private Integer nextByStrategy = -1;
     private ArrayList<Integer> circularList;
     private Integer next_element;
     private Integer previous_element;
@@ -76,10 +76,7 @@ public class CircularListImpl implements CircularList {
         return  elementIndexToRemove;
     }
 
-    @Override
-    public Optional<Integer> next(SelectStrategy strategy) {
-        return Optional.empty();
-    }
+
 
     public Integer getElementFromIndex(int index) {
         return circularList.get(index);
@@ -90,5 +87,51 @@ public class CircularListImpl implements CircularList {
             circularList.add(i);
         }
     }
+
+
+    public Integer nextPari() {
+
+        // If we're at the end, go back to the beginning
+        // or if the list has only one element
+        do {
+            if (currentElementIndexForNext == circularList.size() - 1 || circularList.size() == 1) {
+                currentElementIndexForNext = 0;
+            } else {
+                currentElementIndexForNext++;
+            }
+        } while(circularList.get(currentElementIndexForNext) %2 != 0);
+        return next_element = circularList.get(currentElementIndexForNext);
+    }
+
+    public Integer nextDispari() {
+
+        // If we're at the end, go back to the beginning
+        // or if the list has only one element
+        do {
+            if (currentElementIndexForNext == circularList.size() - 1 || circularList.size() == 1) {
+                currentElementIndexForNext = 0;
+            } else {
+                currentElementIndexForNext++;
+            }
+        } while(circularList.get(currentElementIndexForNext) %2 == 0);
+        return next_element = circularList.get(currentElementIndexForNext);
+    }
+
+    public Integer nextByStrategy(String strategy){
+        nextByStrategy= -1;
+        switch (strategy){
+            case "pari":
+                nextByStrategy = nextPari();
+                break;
+            case "dispari":
+                nextByStrategy = nextDispari();
+                break;
+            default:nextByStrategy=-1;
+                break;
+        }
+        return nextByStrategy;
+    }
+
+
 
 }
